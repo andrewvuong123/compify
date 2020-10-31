@@ -13,10 +13,16 @@ module.exports = {
       {
         test : /\.jsx?/,
         include : SRC_DIR,
-        loader : 'babel-loader',      
+        loader : 'babel-loader',
         query: {
           presets: ['react', 'es2015']
        }
+      },
+      {
+        test: /\.(jpg|png|svg)$/,
+        use: {
+          loader: 'url-loader',
+        },
       }
     ]
   }
