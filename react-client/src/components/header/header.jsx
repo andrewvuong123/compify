@@ -2,15 +2,25 @@ import React from 'react';
 import styled from 'styled-components';
 import image from '../../assets/logo.png';
 
-const Logo = styled.img`
+const Container = styled.div`
   display: flex;
+  border-bottom: 1px solid #404040;
+  padding: 5px 0 5px;
+  margin-bottom: 30px;
   justify-content: center;
-  align-items: center;
+`;
+
+const Logo = styled.img`
+
 `;
 
 const Header = () => {
   return (
-    <Logo src={image}/>
+    <Container>
+      <a href="/search">
+        <Logo src={image}/>
+      </a>
+    </Container>
   )
 };
 

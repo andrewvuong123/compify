@@ -25,7 +25,7 @@ class App extends React.Component {
         <div>
           <Switch>
             <Route path="/" component={HomePage} exact={true} />
-            <Route path="/redirect" component={SearchPage} />
+            <Route path="/search" component={SearchPage} />
             <Route path="/swipe" component={CarouselPage} />
             <Route path="/result" component={PlaylistPage} />
           </Switch>
