@@ -2,13 +2,13 @@ import React from 'react';
 import styled from 'styled-components';
 import Header from '../header/header.jsx';
 
-const Search = () => {
+const Carousel = () => {
   return (
     <div>
       <Header />
-      <div>Search Page</div>
+      <div>Carousel Page</div>
     </div>
   )
 };
 
-export default Search;
+export default Carousel;

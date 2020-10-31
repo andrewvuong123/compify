@@ -1,7 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import $ from 'jquery';
-import Header from './components/header/header.jsx';
+import HomePage from './components/main.jsx';
+import SearchPage from './components/search/search.jsx';
+import CarouselPage from './components/carousel/carousel.jsx';
+import PlaylistPage from './components/playlist/playlist.jsx';
 import styled from 'styled-components';
 
 class App extends React.Component {
@@ -17,9 +21,16 @@ class App extends React.Component {
 
   render () {
     return (
-    <div>
-      <Header/>
-    </div>
+      <BrowserRouter>
+        <div>
+          <Switch>
+            <Route path="/" component={HomePage} exact={true} />
+            <Route path="/redirect" component={SearchPage} />
+            <Route path="/swipe" component={CarouselPage} />
+            <Route path="/result" component={PlaylistPage} />
+          </Switch>
+        </div>
+      </BrowserRouter>
     )
   }
 }
