@@ -40,8 +40,7 @@ const Button = styled.button`
 `;
 
 const Container = styled.div`
-  max-height: 60vh;
-  overflow: scroll;
+
 `;
 
 const Card = styled.div`

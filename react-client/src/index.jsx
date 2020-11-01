@@ -25,27 +25,32 @@ class App extends React.Component {
         {
           title: 'Positions',
           artist: 'Ariana Grande',
-          url: image
+          url: image,
+          uri: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'
         },
         {
           title: 'My Hair',
           artist: 'Ariana Grande',
-          url: image
+          url: image,
+          uri: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3'
         },
         {
           title: '34 35',
           artist: 'Ariana Grande',
-          url: image
+          url: image,
+          uri: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-3.mp3'
         },
         {
           title: 'Motive',
           artist: 'Ariana Grande',
-          url: image
+          url: image,
+          uri: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'
         },
         {
           title: 'Love Language',
           artist: 'Ariana Grande',
-          url: image
+          url: image,
+          uri: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'
         }
       ],
       playlistId: '', // id to add songs to playlist

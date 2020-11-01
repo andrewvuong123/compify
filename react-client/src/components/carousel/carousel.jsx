@@ -1,14 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import Header from '../header/header.jsx';
 import TinderCard from 'react-tinder-card';
 import image from '../../assets/positions.jpg';
+import AudioPlayer from 'react-h5-audio-player';
+import 'react-h5-audio-player/lib/styles.css';
 
 const Container = styled.div`
   margin-top: 5%;
 `;
 
 const Description = styled.h1`
+  text-align: center;
+`;
+
+const HiddenText = styled.h3`
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
   text-align: center;
 `;
 
@@ -46,7 +56,7 @@ const Artist = styled.h3`
 `;
 
 const Button = styled.button`
-  margin: 75% auto 0 auto;
+  margin: 90% auto 10% auto;
   display: block;
   color: #fff;
   background-color: #1db954;
@@ -71,28 +81,34 @@ const Button = styled.button`
   }
 `;
 
+const Audio = styled(AudioPlayer)`
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+`;
+
 const Carousel = (props) => {
   const tracks = props.tracks;
 
   // add to playlist when swiped right
   const swiped = (direction) => {
+    // when swiped off screen, pause play button?
     if (direction === 'right') {
       console.log('right');
     }
-  }
+  };
 
   const handleCreate = () => {
     // call to get all songs in playlist
     //props.getPlaylist();
     // redirect to resulting playlist
     window.location = `http://localhost:3000/result`;
-
   };
 
   return (
     <div>
       <Header />
       <Description>Swipe right to add to your playlist!</Description>
+      <HiddenText> Nice music taste, let's hit create!</HiddenText>
       <Container>
         {tracks.map((song) =>
           <TinderCard key={song.title} onSwipe={(dir) => swiped(dir)}>
@@ -100,6 +116,7 @@ const Carousel = (props) => {
               <Image src={song.url}></Image>
               <Title>{song.title}</Title>
               <Artist>{song.artist}</Artist>
+              <Audio src={song.uri}/>
             </Card>
           </TinderCard>
         )}
