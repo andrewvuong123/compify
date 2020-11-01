@@ -71,37 +71,8 @@ const Button = styled.button`
   }
 `;
 
-//fake data
-const db = [
-  {
-    title: 'Positions',
-    artist: 'Ariana Grande',
-    url: image
-  },
-  {
-    title: 'My Hair',
-    artist: 'Ariana Grande',
-    url: image
-  },
-  {
-    title: '34 35',
-    artist: 'Ariana Grande',
-    url: image
-  },
-  {
-    title: 'Motive',
-    artist: 'Ariana Grande',
-    url: image
-  },
-  {
-    title: 'Love Language',
-    artist: 'Ariana Grande',
-    url: image
-  }
-]
-
-const Carousel = () => {
-  const tracks = db;
+const Carousel = (props) => {
+  const tracks = props.tracks;
 
   // add to playlist when swiped right
   const swiped = (direction) => {
@@ -110,8 +81,10 @@ const Carousel = () => {
     }
   }
 
-  // redirect to resulting playlist
   const handleCreate = () => {
+    // call to get all songs in playlist
+    //props.getPlaylist();
+    // redirect to resulting playlist
     window.location = `http://localhost:3000/result`;
 
   };

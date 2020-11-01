@@ -11,6 +11,23 @@ const Description = styled.h1`
   text-align: center;
 `;
 
+const Input = styled.input`
+  width: 50%;
+  padding-left: 8px;
+  margin-left: 47px;
+  margin-bottom: 20px;
+  border-color: hsl(0,0%,80%);
+  border-radius: 4px;
+  border-style: solid;
+  border-width: 1px;
+  cursor: pointer;
+  min-height: 33px;
+  outline: 0 !important;
+  position: relative;
+  font-family: 'iCiel Gotham';
+  font-size: 16px;
+`;
+
 const SearchContainer = styled.div`
   width: 85%;
   margin: 0 auto;
@@ -46,45 +63,35 @@ const Button = styled.button`
   }
 `;
 
-class Search extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      value: '',
-      artists: [
-      { value: 'Ari', label: 'Ariana' },
-      { value: 'strawberry', label: 'Kanye West' },
-      { value: 'vanilla', label: 'Khalid' }]
-    }
-  }
-  // componentDidMount() {
-  //   // call api
-  // }
+const Search = (props) => {
 
-  handleChange(value) {
-    this.setState({value});
-  }
+  const textInput = React.createRef();
 
-  // redirect to carousel page
-  handleLogin() {
-    // handle api call to get a list of tracks from input.
+  const handleSubmit = () => {
+    // create playlist based on name input text
+    console.log(textInput.current.value);
+    //props.createPlaylist(textInput.current.value);
+
+    // handle api call to get a list of tracks from match input to pass to carousel
+    //props.getTracks();
+
+    // redirect to carousel
     window.location = `http://localhost:3000/swipe`;
-  }
+  };
 
-  render() {
-    return (
-      <div>
-        <Header />
-        <Container>
-          <Description>Build an awesome playlist!</Description>
-          <SearchContainer>
-            <SearchBar options={this.state.artists} placeholder={'Start with music similar to...'}/>
-          </SearchContainer>
-          <Button onClick={this.handleLogin}>Start Matching!</Button>
-        </Container>
-      </div>
-    )
-  }
+  return (
+    <div>
+      <Header />
+      <Container>
+        <Description>Build an awesome playlist!</Description>
+        <Input ref={textInput} placeholder="Name this playlist..." />
+        <SearchContainer>
+          <SearchBar options={props.options} placeholder={'Start with music similar to...'} onChange={props.handleChange} />
+        </SearchContainer>
+        <Button onClick={handleSubmit}>Start Matching!</Button>
+      </Container>
+    </div>
+  )
 }
 
 export default Search;

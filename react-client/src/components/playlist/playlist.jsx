@@ -7,7 +7,10 @@ const Description = styled.h1`
 `;
 
 const Image = styled.img`
-  max-width: 640px;
+  max-width: 18%;
+  max-height: 18%;
+  float:left;
+  margin-right: 2em;
 `;
 
 const Button = styled.button`
@@ -36,36 +39,26 @@ const Button = styled.button`
   }
 `;
 
-// fake data
-// const db = [
-//   {
-//     title: 'Positions',
-//     artist: 'Ariana Grande',
-//     url: image
-//   },
-//   {
-//     title: 'My Hair',
-//     artist: 'Ariana Grande',
-//     url: image
-//   },
-//   {
-//     title: '34 35',
-//     artist: 'Ariana Grande',
-//     url: image
-//   },
-//   {
-//     title: 'Motive',
-//     artist: 'Ariana Grande',
-//     url: image
-//   },
-//   {
-//     title: 'Love Language',
-//     artist: 'Ariana Grande',
-//     url: image
-//   }
-// ]
+const Container = styled.div`
+  max-height: 60vh;
+  overflow: scroll;
+`;
 
-const Playlist = () => {
+const Card = styled.div`
+  display: inline-block;
+  border-bottom: 2px solid #404040;
+  padding: 15px 0 13px;
+`;
+
+const Title = styled.h2`
+`;
+
+const Artist = styled.h2`
+  margin-top: -5px;
+  font-size: 17px;
+`;
+
+const Playlist = (props) => {
 
   // redirect to resulting playlist
   const handleRedirect = () => {
@@ -81,6 +74,16 @@ const Playlist = () => {
       <Header />
       <Description>Checkout your new playlist!</Description>
       <Button onClick={handleRedirect}>Open Spotify</Button>
+      <h2>{props.playlistName} · {props.playlistTracks.length} songs</h2>
+      <Container>
+        {props.playlistTracks.map((song) =>
+          <Card key={song.title} >
+            <Image src={song.url}></Image>
+            <Title>{song.title}</Title>
+            <Artist>{song.artist}</Artist>
+          </Card>
+        )}
+      </Container>
     </div>
   )
 };
