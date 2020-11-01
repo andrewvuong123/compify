@@ -7,6 +7,7 @@ import HomePage from './components/main.jsx';
 import SearchPage from './components/search/search.jsx';
 import CarouselPage from './components/carousel/carousel.jsx';
 import PlaylistPage from './components/playlist/playlist.jsx';
+import NotFoundPage from './components/notFound.jsx';
 import styled from 'styled-components';
 
 import image from './assets/positions.jpg';
@@ -120,6 +121,7 @@ class App extends React.Component {
             <Route path="/search" render={(props) => <SearchPage {...props} options={this.state.artists} handleChange={this.handleChange} createPlaylist={this.createPlaylist} getTracks={this.getTracks}/>} />
             <Route path="/swipe" render={(props) => <CarouselPage {...props} tracks={this.state.tracks} playlistId={this.state.playlistId}/>} />
             <Route path="/result" render={(props) => <PlaylistPage {...props} playlistName={this.state.playlistName} playlistTracks={this.state.playlistTracks}/>} />
+            <Route component={NotFoundPage} />
           </Switch>
         </div>
       </BrowserRouter>

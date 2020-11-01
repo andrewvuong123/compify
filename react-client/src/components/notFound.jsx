@@ -1,14 +1,9 @@
 import React from 'react';
 import Header from './header/header.jsx';
 import styled from 'styled-components';
-import config from '../../../config.js';
-
-const Login = styled.div`
-
-`;
 
 const Button = styled.button`
-  margin: 0 auto;
+  margin: 25% auto 0 auto;
   display: block;
   color: #fff;
   background-color: #1db954;
@@ -33,20 +28,19 @@ const Button = styled.button`
   }
 `;
 
-const Home = (props) => {
+const NotFoundPage = () => {
 
-  const handleLogin = () => {
-    // if error, redirect to
-
-    window.location = `${config.AUTHORIZE_URL}?client_id=${config.CLIENT_ID}&redirect_uri=${config.REDIRECT_URL}&response_type=token&show_dialog=true`;
+  const handleRedirect = () => {
+    window.location = `http://localhost:3000/`;
   };
 
   return (
-    <Login>
-      <Header/>
-      <Button onClick={handleLogin}>Login to Spotify</Button>
-    </Login>
+    <div>
+      <Header />
+      <h1>Oops something wrong occured! Head back to the home page.</h1>
+      <Button onClick={handleRedirect}>Home</Button>
+    </div>
   )
-}
+};
 
-export default Home;
+export default NotFoundPage;
