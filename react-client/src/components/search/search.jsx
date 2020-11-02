@@ -2,6 +2,8 @@ import React from 'react';
 import styled from 'styled-components';
 import Header from '../header/header.jsx';
 import Select from 'react-select';
+import AsyncSelect from 'react-select/async';
+import axios from 'axios';
 
 const Container = styled.div`
 
@@ -33,7 +35,7 @@ const SearchContainer = styled.div`
   margin: 0 auto;
 `;
 
-const SearchBar = styled(Select)`
+const SearchBar = styled(AsyncSelect)`
   color: black;
 `;
 
@@ -79,6 +81,21 @@ const Search = (props) => {
     window.location = `http://localhost:3000/swipe`;
   };
 
+  // get options for search
+  const getOptions = (searchTerm) => {
+    var data;
+    var result = [];
+    // get artist data based on searchterm from api
+    return axios.get(`/api/artists`, { params: { search: `${searchTerm}` }})
+      .then(res => {
+        data = res.data;
+        // filter out names from data, return a list for options to take in
+        data.map((artist) => result.push( { value: `${artist.name}`, label: `${artist.name}` }));
+        console.log(result);
+        return result;
+      });
+  }
+
   return (
     <div>
       <Header />
@@ -86,7 +103,7 @@ const Search = (props) => {
         <Description>Build an awesome playlist!</Description>
         <Input ref={textInput} placeholder="Name this playlist..." />
         <SearchContainer>
-          <SearchBar options={props.options} placeholder={'Start with music similar to...'} onChange={props.handleChange} />
+          <SearchBar placeholder="Start with music similar to..." loadOptions={getOptions.bind(this)} onChange={props.handleChange} />
         </SearchContainer>
         <Button onClick={handleSubmit}>Start Matching!</Button>
       </Container>

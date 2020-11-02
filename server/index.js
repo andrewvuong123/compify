@@ -35,7 +35,6 @@ app.get('/login', (req, res) => {
 app.get('/callback', async (req, res) => {
   // code returned as query from redirect uri
   const code = req.query.code;
-  console.log('query', req.query.code);
   try {
     // get access/refresh token
     var data = await spotifyApi.authorizationCodeGrant(code);
@@ -51,12 +50,18 @@ app.get('/callback', async (req, res) => {
   }
 });
 
-// app.get('', (req, res) => {
-//   // get data from api
-//   var name = req.query;
-//   var data = spotifyApi.getArtists(name);
-//   res.status.send({options: data});
-// });
+// get artists for search select
+app.get('/api/artists', (req, res) => {
+  // get data from api
+  var name = req.query.search;
+  console.log(name);
+  spotifyApi.searchArtists(name)
+    .then(function(data) {
+      res.status(200).send(data.body.artists.items);
+    }, function(err) {
+      console.error(err);
+    });
+});
 
 app.get('*', (req, res) => res.sendFile(path.resolve('react-client', 'dist', 'index.html')));
 
