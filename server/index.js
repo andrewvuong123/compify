@@ -2,7 +2,6 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var path = require('path');
 var cors = require('cors');
-// var spotifyAPI = require('../helpers/spotify.js');
 var spotifyWebAPI = require('spotify-web-api-node');
 var config = require('../config.js');
 // var items = require('../database-mongo');
@@ -23,7 +22,8 @@ var app = express();
 app.use(express.static(__dirname + '/../react-client/dist'));
 // Enabling CORS
 app.use(cors());
-// app.use(bodyParser.json);
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
 
 // redirect to authentication page
 app.get('/login', (req, res) => {
@@ -54,14 +54,25 @@ app.get('/callback', async (req, res) => {
 app.get('/api/artists', (req, res) => {
   // get data from api
   var name = req.query.search;
-  console.log(name);
   spotifyApi.searchArtists(name)
     .then(function(data) {
       res.status(200).send(data.body.artists.items);
     }, function(err) {
-      console.error(err);
+      res.status(400).send(err);
     });
 });
+
+// create a new playlist
+app.post('/api/playlist', (req, res) => {
+  var name = req.body.name;
+  spotifyApi.createPlaylist(name, { 'description': 'Brought to you by Compify!', 'public': true })
+    .then(function(data) {
+      res.status(201).send(data.body.id);
+    }, function(err) {
+      //console.log('Something went wrong!', err);
+      res.status(400).error(err);
+    });
+})
 
 app.get('*', (req, res) => res.sendFile(path.resolve('react-client', 'dist', 'index.html')));
 

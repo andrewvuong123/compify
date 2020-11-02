@@ -41,17 +41,6 @@ const Link = styled.a`
 
 const Home = (props) => {
 
-  // const handleLogin = () => {
-  //   // if error, redirect to
-  //   axios.get('/login')
-  //     .then(function (response) {
-  //       console.log(response);
-  //     })
-  //     .catch(function (error) {
-  //       console.log(error);
-  //     });
-  // };
-
   return (
     <Login>
       <Header/>
