@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
+import axios from 'axios';
 import Header from '../header/header.jsx';
 import TinderCard from 'react-tinder-card';
 import image from '../../assets/positions.jpg';
@@ -45,9 +46,13 @@ const Image = styled.img`
 `;
 
 const Title = styled.h3`
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 87%;
   color: black;
   margin: 15px auto 0 auto;
-  font-size: 30px;
+  font-size: 2vw;
 `;
 
 const Artist = styled.h3`
@@ -86,24 +91,34 @@ const Audio = styled(AudioPlayer)`
   border-bottom-right-radius: 15px;
 `;
 
-const Carousel = (props) => {
-  console.log('TRACKS', props.tracks);
-  console.log('ID', props.playlistId);
-  const tracks = props.tracks;
+const savedSongs = [];
 
-  // add to playlist when swiped right
+const Carousel = (props) => {
+  const tracks = props.tracks;
+  // keep track of current card
+  var count = tracks.length - 1;
+  var song;
+
   const swiped = (direction) => {
-    // when swiped off screen, pause play button?
+    // add to savedSongs when swiped right
     if (direction === 'right') {
-      console.log('right');
+      song = tracks[count];
+      savedSongs.push(song.uri);
     }
+    count -= 1;
   };
 
-  const handleCreate = () => {
-    // call to get all songs in playlist
-    //props.getPlaylist();
-    // redirect to resulting playlist
-    window.location = `http://localhost:3000/result`;
+  const handleCreate = async () => {
+    // make api call to add all saved songs to the playlist
+    await axios.post('/api/playlist/song', { playlistId: props.playlistId, tracks: savedSongs })
+      .then((res) => {
+        console.log('Successful creation!');
+      }, (err) => {
+        console.log(err);
+      });
+
+    // call to update songs in playlist within main state
+    props.getPlaylist();
   };
 
   return (
@@ -118,7 +133,7 @@ const Carousel = (props) => {
               <Image src={song.url}></Image>
               <Title>{song.title}</Title>
               <Artist>{song.artist}</Artist>
-              <Audio src={song.uri}/>
+              <Audio src={song.preview}/>
             </Card>
           </TinderCard>
         )}

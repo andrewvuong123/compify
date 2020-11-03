@@ -67,14 +67,12 @@ const Button = styled.button`
 const Search = (props) => {
 
   const nameInput = React.createRef();
+
   const handleSubmit = async () => {
     // create playlist based on name input text
     await props.createPlaylist(nameInput.current.value);
-
-    // handle api call to get a list of tracks from match input to pass to carousel
-    await props.getTracks();
-    // redirect to carousel once tracks have been updated
-    //window.location = `http://localhost:3000/swipe`;
+    // handle api call to update a list of tracks in main state
+    props.getTracks();
   };
 
   // get options for search dropdown

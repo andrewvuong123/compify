@@ -69,7 +69,6 @@ app.post('/api/playlist', (req, res) => {
     .then(function(data) {
       res.status(201).send(data.body.id);
     }, function(err) {
-      //console.log('Something went wrong!', err);
       res.status(400).send(err);
     });
 });
@@ -84,13 +83,36 @@ app.get('/api/tracks', (req, res) => {
   })
     .then(function(data) {
       let recommendations = data.body.tracks;
-      // console.log(recommendations);
       res.status(200).send(recommendations);
     }, function(err) {
-      //console.log('Something went wrong!', err);
       res.status(400).send(err);
     });
-})
+});
+
+// add song to existing playlist
+app.post('/api/playlist/song', (req, res) => {
+  var playlistId = req.body.playlistId;
+  var trackList = req.body.tracks;
+  spotifyApi.addTracksToPlaylist(playlistId, trackList)
+    .then(function(data) {
+      res.status(201).send('Success!');
+    }, function(err) {
+      console.log(err);
+      res.status(400).send(err);
+    });
+});
+
+// get tracks from playlist
+app.get('/api/playlist', (req, res) => {
+  var playlistId = req.query.playlistId;
+  spotifyApi.getPlaylist(playlistId)
+    .then(function(data) {
+      res.status(200).send(data.body.tracks.items);
+    }, function(err) {
+      res.status(400).send(err);
+      //console.log('Something went wrong!', err);
+    });
+});
 
 app.get('*', (req, res) => res.sendFile(path.resolve('react-client', 'dist', 'index.html')));
 

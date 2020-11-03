@@ -20,35 +20,10 @@ class App extends React.Component {
       selectedArtistId: '',
       tracks: [],
       carouselRedirect: false,
-      playlistId: '', // id to add songs to playlist
-      playlistName: '', // name of playlist
-      playlistTracks: [  // all songs within a created playlist
-        {
-          title: 'Positions',
-          artist: 'Ariana Grande',
-          url: image
-        },
-        {
-          title: 'My Hair',
-          artist: 'Ariana Grande',
-          url: image
-        },
-        {
-          title: '34 35',
-          artist: 'Ariana Grande',
-          url: image
-        },
-        {
-          title: 'Motive',
-          artist: 'Ariana Grande',
-          url: image
-        },
-        {
-          title: 'Love Language',
-          artist: 'Ariana Grande',
-          url: image
-        }
-      ]
+      resultRedirect: false,
+      playlistId: '',
+      playlistName: '',
+      playlistTracks: []
     }
     this.handleSelect = this.handleSelect.bind(this);
     this.createPlaylist = this.createPlaylist.bind(this);
@@ -56,11 +31,7 @@ class App extends React.Component {
     this.getPlaylist = this.getPlaylist.bind(this);
   }
 
-  // componentDidMount() {
-
-  // }
-
-  // update state with selected artist for matching
+  // update state with selected artist for carousel matches
   handleSelect(selectedArtist) {
     this.setState({
       selectedArtist: selectedArtist.value.name,
@@ -68,7 +39,7 @@ class App extends React.Component {
     });
   }
 
-  // create playlist
+  // create new playlist
   createPlaylist(name) {
     // api call to create playlist, update state with playlist id/name
     axios.post('/api/playlist', { name: name })
@@ -83,7 +54,7 @@ class App extends React.Component {
       });
   }
 
-  // get tracks for carousel based on selectedArtist in search
+  // get tracks for carousel based on selectedArtist
   getTracks() {
     var data;
     var result = [];
@@ -92,7 +63,7 @@ class App extends React.Component {
       .then(res => {
         data = res.data;
         // reshape data into the result array
-        data.map((track) => result.push( { title: track.name, artist: track.artists[0].name, url: track.album.images[1].url, uri: (track.preview_url === null) ? 'random' : track.preview_url }));
+        data.map((track) => result.push( { title: track.name, artist: track.artists[0].name, url: track.album.images[1].url, preview: (track.preview_url === null) ? 'random' : track.preview_url, uri: track.uri }));
         // update state tracks for matching
         this.setState({
           tracks: result,
@@ -101,15 +72,38 @@ class App extends React.Component {
       });
   }
 
-  // get songs within playlist
+  // get songs within playlist based on swiped cards
   getPlaylist() {
+    var data;
+    var result = [];
     // api call to get playlist, update state playlist tracks
-    console.log(this.state.playlistId);
+    axios.get('/api/playlist', { params: { playlistId: this.state.playlistId }})
+      .then(res => {
+        data = res.data;
+        // reshape data into the result array
+        data.map((song) => result.push( { title: song.track.name, artist: song.track.artists[0].name, url: song.track.album.images[1].url }));
+        // update state tracks for matching
+        this.setState({
+          playlistTracks: result,
+          resultRedirect: true
+        });
+      });
   }
 
-  renderCarousel() {
+  // flow to redirect to another page
+  renderRedirect() {
     if (this.state.carouselRedirect) {
+      // reset state to false
+      this.setState({
+        carouselRedirect: false
+      });
       return <Redirect to='/swipe' />
+    }
+    if (this.state.resultRedirect) {
+      this.setState({
+        resultRedirect: false
+      });
+      return <Redirect to='/result' />
     }
   }
 
@@ -117,12 +111,12 @@ class App extends React.Component {
     return (
       <BrowserRouter>
         <div>
-          {this.renderCarousel()}
+          {this.renderRedirect()}
           <Switch>
             <Route path="/" component={HomePage} exact={true} />
             <Route path="/search" render={(props) => <SearchPage {...props} handleSelect={this.handleSelect} createPlaylist={this.createPlaylist} tracks={this.state.tracks} getTracks={this.getTracks}/>} />
-            <Route path="/swipe" render={(props) => <CarouselPage {...props} tracks={this.state.tracks} playlistId={this.state.playlistId}/>} />
-            <Route path="/result" render={(props) => <PlaylistPage {...props} playlistName={this.state.playlistName} playlistTracks={this.state.playlistTracks}/>} />
+            <Route path="/swipe" render={(props) => <CarouselPage {...props} tracks={this.state.tracks} playlistId={this.state.playlistId} getPlaylist={this.getPlaylist} />} />
+            <Route path="/result" render={(props) => <PlaylistPage {...props} playlistName={this.state.playlistName} playlistTracks={this.state.playlistTracks} playlistId={this.state.playlistId} />} />
             <Route component={NotFoundPage} />
           </Switch>
         </div>
