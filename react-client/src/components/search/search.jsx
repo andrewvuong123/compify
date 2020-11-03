@@ -127,7 +127,7 @@ const Search = (props) => {
         <Description>Build an awesome playlist!</Description>
         <Input ref={nameInput} placeholder="Name this playlist..." />
         <SearchContainer>
-          <SearchBar maxMenuHeight='50vh' styles={customStyles} placeholder="Start with music similar to..." loadOptions={getOptions.bind(this)} onChange={props.handleSelect} />
+          <SearchBar maxMenuHeight='40vh' styles={customStyles} placeholder="Start with music similar to..." loadOptions={getOptions.bind(this)} onChange={props.handleSelect} />
         </SearchContainer>
         <Button onClick={handleSubmit}>Start Matching!</Button>
       </Container>

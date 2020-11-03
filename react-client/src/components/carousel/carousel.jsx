@@ -7,7 +7,6 @@ import AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
 
 const Container = styled.div`
-  margin-top: 5%;
 `;
 
 const Description = styled.h1`
@@ -67,7 +66,7 @@ const BtnContainer = styled.div`
 
 const Create = styled.button`
   display: block;
-  margin: 80% auto 10% auto;
+  margin: 75% auto 10% auto;
   color: #fff;
   background-color: #1db954;
   font-size: 14px;
