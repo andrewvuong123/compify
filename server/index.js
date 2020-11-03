@@ -96,6 +96,7 @@ app.post('/api/playlist/song', (req, res) => {
     .then(function(data) {
       res.status(201).send('Success!');
     }, function(err) {
+      console.log(err);
       res.status(400).send(err);
     });
 });

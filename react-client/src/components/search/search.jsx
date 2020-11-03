@@ -82,6 +82,10 @@ const Name = styled.span`
 `;
 
 const customStyles = {
+  input: () => ({
+    marginLeft: '2px',
+    fontSize: '25px'
+  }),
   control: () => ({
   // none of react-select's styles are passed to <Control />
     background: 'white',
@@ -123,7 +127,7 @@ const Search = (props) => {
         <Description>Build an awesome playlist!</Description>
         <Input ref={nameInput} placeholder="Name this playlist..." />
         <SearchContainer>
-          <SearchBar styles={customStyles} placeholder="Start with music similar to..." loadOptions={getOptions.bind(this)} onChange={props.handleSelect} />
+          <SearchBar maxMenuHeight='50vh' styles={customStyles} placeholder="Start with music similar to..." loadOptions={getOptions.bind(this)} onChange={props.handleSelect} />
         </SearchContainer>
         <Button onClick={handleSubmit}>Start Matching!</Button>
       </Container>
