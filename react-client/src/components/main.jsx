@@ -44,6 +44,8 @@ const Home = (props) => {
   return (
     <Login>
       <Header/>
+      <h1>Create new music playlists in seconds</h1>
+      <h3> Compify is a playlist builder that aggregates top tracks that match your search criteria. Enter in any of your favorite artists and we'll find the best tracks for you! Swipe right on the songs that you enjoy and build up a new playlist that you can save to your Spotify account. </h3>
       <Button><Link href="/login">Login to Spotify</Link></Button>
     </Login>
   )

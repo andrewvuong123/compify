@@ -45,7 +45,6 @@ app.get('/callback', async (req, res) => {
     // redirect to search page
     res.redirect('http://localhost:3000/search');
   } catch(err) {
-    console.log(err);
     res.redirect('http://localhost:3000/error');
   }
 });
@@ -97,7 +96,6 @@ app.post('/api/playlist/song', (req, res) => {
     .then(function(data) {
       res.status(201).send('Success!');
     }, function(err) {
-      console.log(err);
       res.status(400).send(err);
     });
 });
@@ -110,7 +108,6 @@ app.get('/api/playlist', (req, res) => {
       res.status(200).send(data.body.tracks.items);
     }, function(err) {
       res.status(400).send(err);
-      //console.log('Something went wrong!', err);
     });
 });
 

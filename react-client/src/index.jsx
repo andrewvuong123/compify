@@ -10,8 +10,6 @@ import PlaylistPage from './components/playlist/playlist.jsx';
 import NotFoundPage from './components/notFound.jsx';
 import styled from 'styled-components';
 
-import image from './assets/positions.jpg';
-
 class App extends React.Component {
   constructor(props) {
     super(props);

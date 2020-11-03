@@ -3,7 +3,6 @@ import styled from 'styled-components';
 import axios from 'axios';
 import Header from '../header/header.jsx';
 import TinderCard from 'react-tinder-card';
-import image from '../../assets/positions.jpg';
 import AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
 

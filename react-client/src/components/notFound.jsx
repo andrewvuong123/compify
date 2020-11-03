@@ -37,7 +37,7 @@ const NotFoundPage = () => {
   return (
     <div>
       <Header />
-      <h1>Oops something wrong occured! Head back to the home page.</h1>
+      <h1>Oops something went wrong! Head back to the home page.</h1>
       <Button onClick={handleRedirect}>Home</Button>
     </div>
   )
