@@ -36,6 +36,7 @@ const SearchContainer = styled.div`
 
 const SearchBar = styled(AsyncSelect)`
   color: black;
+  min-height: 55px;
 `;
 
 const Button = styled.button`
@@ -64,6 +65,32 @@ const Button = styled.button`
   }
 `;
 
+const Option = styled.div`
+  display: flex;
+  align-items:center;
+`;
+
+const Image = styled.img`
+  border-radius: 50%;
+  margin-right: 10px;
+  height: 60px;
+  width: 60px;
+`;
+
+const Name = styled.span`
+  font-size: 20px;
+`;
+
+const customStyles = {
+  control: () => ({
+  // none of react-select's styles are passed to <Control />
+    background: 'white',
+    height: 70,
+    borderRadius: 5,
+    display: 'flex',
+  })
+}
+
 const Search = (props) => {
 
   const nameInput = React.createRef();
@@ -84,7 +111,7 @@ const Search = (props) => {
       .then(res => {
         data = res.data;
         // filter out names from data, return a list for options to take in
-        data.map((artist) => result.push( { value: { name: artist.name, id: artist.id }, label: artist.name }));
+      data.map((artist) => result.push( { value: { name: artist.name, id: artist.id }, label: <Option><Image src={artist.images[2].url} /><Name>{artist.name}</Name></Option> }));
         return result;
       });
   }
@@ -96,7 +123,7 @@ const Search = (props) => {
         <Description>Build an awesome playlist!</Description>
         <Input ref={nameInput} placeholder="Name this playlist..." />
         <SearchContainer>
-          <SearchBar placeholder="Start with music similar to..." loadOptions={getOptions.bind(this)} onChange={props.handleSelect} />
+          <SearchBar styles={customStyles} placeholder="Start with music similar to..." loadOptions={getOptions.bind(this)} onChange={props.handleSelect} />
         </SearchContainer>
         <Button onClick={handleSubmit}>Start Matching!</Button>
       </Container>
