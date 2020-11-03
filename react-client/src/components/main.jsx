@@ -2,6 +2,7 @@ import React from 'react';
 import Header from './header/header.jsx';
 import styled from 'styled-components';
 import config from '../../../config.js';
+import axios from 'axios';
 
 const Login = styled.div`
 
@@ -33,18 +34,17 @@ const Button = styled.button`
   }
 `;
 
+const Link = styled.a`
+  color: white;
+  text-decoration: none;
+`;
+
 const Home = (props) => {
-
-  const handleLogin = () => {
-    // if error, redirect to
-
-    window.location = `${config.AUTHORIZE_URL}?client_id=${config.CLIENT_ID}&redirect_uri=${config.REDIRECT_URL}&response_type=token&show_dialog=true`;
-  };
 
   return (
     <Login>
       <Header/>
-      <Button onClick={handleLogin}>Login to Spotify</Button>
+      <Button><Link href="/login">Login to Spotify</Link></Button>
     </Login>
   )
 }

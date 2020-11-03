@@ -17,7 +17,7 @@ const Logo = styled.img`
 const Header = () => {
   return (
     <Container>
-      <a href="/search">
+      <a href="/">
         <Logo src={image}/>
       </a>
     </Container>

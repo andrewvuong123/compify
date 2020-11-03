@@ -1,7 +1,8 @@
 import React from 'react';
 import styled from 'styled-components';
 import Header from '../header/header.jsx';
-import Select from 'react-select';
+import AsyncSelect from 'react-select/async';
+import axios from 'axios';
 
 const Container = styled.div`
 
@@ -33,7 +34,7 @@ const SearchContainer = styled.div`
   margin: 0 auto;
 `;
 
-const SearchBar = styled(Select)`
+const SearchBar = styled(AsyncSelect)`
   color: black;
 `;
 
@@ -65,28 +66,37 @@ const Button = styled.button`
 
 const Search = (props) => {
 
-  const textInput = React.createRef();
+  const nameInput = React.createRef();
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     // create playlist based on name input text
-    console.log(textInput.current.value);
-    //props.createPlaylist(textInput.current.value);
-
-    // handle api call to get a list of tracks from match input to pass to carousel
-    //props.getTracks();
-
-    // redirect to carousel
-    window.location = `http://localhost:3000/swipe`;
+    await props.createPlaylist(nameInput.current.value);
+    // handle api call to update a list of tracks in main state
+    props.getTracks();
   };
+
+  // get options for search dropdown
+  const getOptions = (searchTerm) => {
+    var data;
+    var result = [];
+    // get artist data based on searchterm from api
+    return axios.get(`/api/artists`, { params: { search: searchTerm }})
+      .then(res => {
+        data = res.data;
+        // filter out names from data, return a list for options to take in
+        data.map((artist) => result.push( { value: { name: artist.name, id: artist.id }, label: artist.name }));
+        return result;
+      });
+  }
 
   return (
     <div>
       <Header />
       <Container>
         <Description>Build an awesome playlist!</Description>
-        <Input ref={textInput} placeholder="Name this playlist..." />
+        <Input ref={nameInput} placeholder="Name this playlist..." />
         <SearchContainer>
-          <SearchBar options={props.options} placeholder={'Start with music similar to...'} onChange={props.handleChange} />
+          <SearchBar placeholder="Start with music similar to..." loadOptions={getOptions.bind(this)} onChange={props.handleSelect} />
         </SearchContainer>
         <Button onClick={handleSubmit}>Start Matching!</Button>
       </Container>

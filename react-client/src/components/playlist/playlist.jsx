@@ -7,8 +7,7 @@ const Description = styled.h1`
 `;
 
 const Image = styled.img`
-  max-width: 18%;
-  max-height: 18%;
+  width: 30%;
   float:left;
   margin-right: 2em;
 `;
@@ -44,12 +43,14 @@ const Container = styled.div`
 `;
 
 const Card = styled.div`
+  width: 100%;
   display: inline-block;
   border-bottom: 2px solid #404040;
   padding: 15px 0 13px;
 `;
 
 const Title = styled.h2`
+  margin-top: 8%;
 `;
 
 const Artist = styled.h2`
@@ -58,14 +59,12 @@ const Artist = styled.h2`
 `;
 
 const Playlist = (props) => {
-
   // redirect to resulting playlist
   const handleRedirect = () => {
     window.open(
-      'https://open.spotify.com',
-      '_blank' // <- This is what makes it open in a new window.
+      `https://open.spotify.com/playlist/${props.playlistId}`,
+      '_blank' // Open in a new window.
     );
-    // add /playlist/:playlistId to redirect to specific playlist
   };
 
   return (
