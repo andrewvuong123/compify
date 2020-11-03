@@ -87,6 +87,8 @@ const Audio = styled(AudioPlayer)`
 `;
 
 const Carousel = (props) => {
+  console.log('TRACKS', props.tracks);
+  console.log('ID', props.playlistId);
   const tracks = props.tracks;
 
   // add to playlist when swiped right

@@ -70,7 +70,25 @@ app.post('/api/playlist', (req, res) => {
       res.status(201).send(data.body.id);
     }, function(err) {
       //console.log('Something went wrong!', err);
-      res.status(400).error(err);
+      res.status(400).send(err);
+    });
+});
+
+// get recommended tracks based on seeds
+app.get('/api/tracks', (req, res) => {
+  var id = req.query.id;
+  spotifyApi.getRecommendations({
+    min_energy: 0.4,
+    seed_artists: [id],
+    min_popularity: 50
+  })
+    .then(function(data) {
+      let recommendations = data.body.tracks;
+      // console.log(recommendations);
+      res.status(200).send(recommendations);
+    }, function(err) {
+      //console.log('Something went wrong!', err);
+      res.status(400).send(err);
     });
 })
 

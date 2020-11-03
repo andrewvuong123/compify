@@ -73,7 +73,6 @@ const Search = (props) => {
 
     // handle api call to get a list of tracks from match input to pass to carousel
     await props.getTracks();
-
     // redirect to carousel once tracks have been updated
     //window.location = `http://localhost:3000/swipe`;
   };
@@ -87,7 +86,7 @@ const Search = (props) => {
       .then(res => {
         data = res.data;
         // filter out names from data, return a list for options to take in
-        data.map((artist) => result.push( { value: `${artist.name}`, label: `${artist.name}` }));
+        data.map((artist) => result.push( { value: { name: artist.name, id: artist.id }, label: artist.name }));
         return result;
       });
   }
