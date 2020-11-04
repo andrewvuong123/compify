@@ -194,7 +194,7 @@ const Carousel = (props) => {
     <div>
       <Header />
       <Description>Swipe right to add to your playlist!</Description>
-      <HiddenText> Nice music taste, let's hit create!</HiddenText>
+      <HiddenText> Nice music taste, let's hit create! </HiddenText>
       <Container>
         {tracks.map((song, index) =>
           <TinderCard ref={childRefs[index]} key={song.title} onSwipe={(dir) => swiped(dir, song.title, song)}>

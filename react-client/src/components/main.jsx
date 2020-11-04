@@ -57,13 +57,14 @@ const Slide = styled.div`
 `;
 
 const Image = styled.img`
-  height: 200px;
+  height: 300px;
+  border-radius: 10px;
   margin-left: auto;
   margin-right: auto;
 `;
 
 const Caption = styled.h3`
-  max-width: 300px;
+  max-width: 350px;
   margin-left: auto;
   margin-right: auto;
 `;
@@ -73,24 +74,26 @@ const Home = (props) => {
   // carousel settings
   const settings = {
     dots: false,
+    arrows: false,
+    pauseOnHover: true,
     infinite: true,
     slidesToShow: 1,
     slidesToScroll: 1,
-    autoplay: false,
-    speed: 2000,
-    // autoplay: 1000,
-    cssEase: 'linear',
-    centerMode: true
+    autoplay: true,
+    autoplaySpeed: 4000,
+    speed: 1000,
+    fade: true,
+    arrows: false
   }
 
   return (
     <Login>
       <Header/>
-      <Description>Create new playlists in seconds!</Description>
+      <Description>Generate the perfect Spotify playlist!</Description>
       <Carousel {...settings}>
         <Slide>
           <Image src={slide1}/>
-          <Caption>Enter in any of your favorite artists and we'll find the best tracks for you! </Caption>
+          <Caption>Enter your favorite artists and we'll find the best tracks for you</Caption>
         </Slide>
         <Slide>
           <Image src={slide2}/>
@@ -98,7 +101,7 @@ const Home = (props) => {
         </Slide>
         <Slide>
           <Image src={slide3}/>
-          <Caption>Build up a playlist that can be saved to your Spotify account!</Caption>
+          <Caption>Build up a playlist that can be saved to your Spotify account</Caption>
         </Slide>
       </Carousel>
       <Button><Link href="/login">Login to Spotify</Link></Button>

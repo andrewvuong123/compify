@@ -129,7 +129,7 @@ const Search = (props) => {
         <SearchContainer>
           <SearchBar maxMenuHeight='40vh' styles={customStyles} placeholder="Start with music similar to..." loadOptions={getOptions.bind(this)} onChange={props.handleSelect} />
         </SearchContainer>
-        <Button onClick={handleSubmit}>Start Matching!</Button>
+        <Button onClick={handleSubmit}>Start Matching</Button>
       </Container>
     </div>
   )
