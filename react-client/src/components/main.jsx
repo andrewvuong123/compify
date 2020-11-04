@@ -1,11 +1,17 @@
 import React from 'react';
 import Header from './header/header.jsx';
 import styled from 'styled-components';
-import config from '../../../config.js';
-import axios from 'axios';
+import Slider from 'react-slick';
+import slide1 from '../assets/slide1.png';
+import slide2 from '../assets/slide2.png';
+import slide3 from '../assets/slide3.png';
 
 const Login = styled.div`
 
+`;
+
+const Description = styled.h1`
+  text-align: center;
 `;
 
 const Button = styled.button`
@@ -39,13 +45,62 @@ const Link = styled.a`
   text-decoration: none;
 `;
 
+const Carousel = styled(Slider)`
+  left: -2%;
+`;
+
+const Slide = styled.div`
+  width: 100%;
+  display: inline-block;
+  text-align: center;
+  padding: 20px;
+`;
+
+const Image = styled.img`
+  height: 200px;
+  margin-left: auto;
+  margin-right: auto;
+`;
+
+const Caption = styled.h3`
+  max-width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+`;
+
 const Home = (props) => {
+
+  // carousel settings
+  const settings = {
+    dots: false,
+    infinite: true,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    autoplay: false,
+    speed: 2000,
+    // autoplay: 1000,
+    cssEase: 'linear',
+    centerMode: true
+  }
 
   return (
     <Login>
       <Header/>
-      <h1>Create new music playlists in seconds</h1>
-      <h3> Compify is a playlist builder that aggregates top tracks that match your search criteria. Enter in any of your favorite artists and we'll find the best tracks for you! Swipe right on the songs that you enjoy and build up a new playlist that you can save to your Spotify account. </h3>
+      <Description>Create new playlists in seconds!</Description>
+      <Carousel {...settings}>
+        <Slide>
+          <Image src={slide1}/>
+          <Caption>Enter in any of your favorite artists and we'll find the best tracks for you! </Caption>
+        </Slide>
+        <Slide>
+          <Image src={slide2}/>
+          <Caption>Explore different songs and swipe right on the ones you enjoy</Caption>
+        </Slide>
+        <Slide>
+          <Image src={slide3}/>
+          <Caption>Build up a playlist that can be saved to your Spotify account!</Caption>
+        </Slide>
+      </Carousel>
       <Button><Link href="/login">Login to Spotify</Link></Button>
     </Login>
   )
