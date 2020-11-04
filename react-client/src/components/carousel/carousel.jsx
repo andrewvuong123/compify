@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import styled from 'styled-components';
 import axios from 'axios';
 import Header from '../header/header.jsx';
@@ -7,7 +7,6 @@ import AudioPlayer from 'react-h5-audio-player';
 import 'react-h5-audio-player/lib/styles.css';
 
 const Container = styled.div`
-  margin-top: 5%;
 `;
 
 const Description = styled.h1`
@@ -15,10 +14,8 @@ const Description = styled.h1`
 `;
 
 const HiddenText = styled.h3`
-  position: absolute;
-  top: 50%;
-  left: 0;
-  right: 0;
+  position: relative;
+  top: 300px;
   text-align: center;
 `;
 
@@ -59,9 +56,17 @@ const Artist = styled.h3`
   margin-top: 3px;
 `;
 
-const Button = styled.button`
-  margin: 90% auto 10% auto;
+const BtnContainer = styled.div`
+  display: inline-flex;
+  position: relative;
+  top: 300px;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
+
+const Create = styled.button`
   display: block;
+  margin: 75% auto 10% auto;
   color: #fff;
   background-color: #1db954;
   font-size: 14px;
@@ -85,27 +90,92 @@ const Button = styled.button`
   }
 `;
 
+const Left = styled.button`
+  display: block;
+  margin-right: 200px;
+  background-color: #E86948;
+  border-radius: 50%;
+  padding: 18px;
+  border-width: 0;
+  outline: none;
+  transition-property: background-color;
+  transition-duration: .3s;
+
+  &:hover {
+    background-color: #ff734c;
+    cursor: pointer;
+  }
+
+  &:active {
+    background-color: #cf7e6a;
+  }
+`;
+
+const Right = styled.button`
+  display: block;
+  margin-left: 200px;
+  background-color: #49C68F;
+  border-radius: 50%;
+  padding: 18px;
+  border-width: 0;
+  outline: none;
+  transition-property: background-color;
+  transition-duration: .3s;
+
+  &:hover {
+    background-color: #59f0aa;
+    cursor: pointer;
+  }
+
+  &:active {
+    background-color: #62ad8d;
+  }
+`;
+
 const Audio = styled(AudioPlayer)`
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
 `;
 
-const savedSongs = [];
+const savedSongs = []; // saved track objects
+const savedTitles =[]; // saved titles to avoid duplicates
+const removed = [];
 
 const Carousel = (props) => {
   const tracks = props.tracks;
-  // keep track of current card
-  var count = tracks.length - 1;
-  var song;
 
-  const swiped = (direction) => {
-    // add to savedSongs when swiped right
+  const [characters, setCharacters] = useState(tracks);
+  const [lastDir, setLastDir] = useState();
+
+  const childRefs = useMemo(() => Array(tracks.length).fill(0).map(i => React.createRef()), []);
+
+  // manual swiping
+  const swiped = (direction, songToDelete, songToSave) => {
+    // add when swiped right
     if (direction === 'right') {
-      song = tracks[count];
-      savedSongs.push(song.uri);
+      savedSongs.push(songToSave.uri);
+      savedTitles.push(songToDelete);
     }
-    count -= 1;
+    setLastDir(direction);
+    removed.push(songToDelete);
   };
+
+  // button swiping
+  const swipe = (direction) => {
+    const cardsLeft = characters.filter(song => !removed.includes(song.title));
+    if (cardsLeft.length) {
+      const toRemove = cardsLeft[cardsLeft.length - 1].title;
+      const toSave = cardsLeft[cardsLeft.length - 1];
+      const index = tracks.map(song => song.title).indexOf(toRemove);
+      removed.push(toRemove);
+      childRefs[index].current.swipe(direction);
+      // only add if not within playlist
+      if (direction === 'right' && !savedTitles.includes(toRemove)) {
+        savedSongs.push(toSave.uri);
+        savedTitles.push(toRemove);
+      }
+    }
+  }
 
   const handleCreate = async () => {
     // make api call to add all saved songs to the playlist
@@ -124,10 +194,10 @@ const Carousel = (props) => {
     <div>
       <Header />
       <Description>Swipe right to add to your playlist!</Description>
-      <HiddenText> Nice music taste, let's hit create!</HiddenText>
+      <HiddenText> Nice music taste, let's hit create! </HiddenText>
       <Container>
-        {tracks.map((song) =>
-          <TinderCard key={song.title} onSwipe={(dir) => swiped(dir)}>
+        {tracks.map((song, index) =>
+          <TinderCard ref={childRefs[index]} key={song.title} onSwipe={(dir) => swiped(dir, song.title, song)}>
             <Card>
               <Image src={song.url}></Image>
               <Title>{song.title}</Title>
@@ -137,7 +207,15 @@ const Carousel = (props) => {
           </TinderCard>
         )}
       </Container>
-      <Button onClick={handleCreate}>Create Playlist</Button>
+      <BtnContainer>
+        <Left onClick={() => swipe('left')}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </Left>
+        <Right onClick={() => swipe('right')}>
+          <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+        </Right>
+      </BtnContainer>
+        <Create onClick={handleCreate}>Create Playlist</Create>
     </div>
   )
 };
