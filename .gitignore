@@ -1,4 +1,4 @@
 node_modules
 build/
-dist/
+/react-client/dist/bundle.js
 config.js

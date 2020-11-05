@@ -1,0 +1,20 @@
+html {
+  min-height: 100%;
+}
+
+body {
+  min-height: 100%;
+  background: linear-gradient(#434343, #000000);
+  font-family: 'iCiel Gotham';
+  color: white;
+  padding-bottom: 50px;
+}
+::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+#app {
+  margin: 0 auto;
+  max-width: 640px;
+}
